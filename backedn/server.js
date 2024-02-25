@@ -1,6 +1,8 @@
 const mongooes = require('mongoose');
 const dotenv = require('dotenv');
 
+dotenv.config({ path: '../.env' });
+
 process.on('uncaughtException', (err) => {
   console.log('UNCAUGHT EXCEPTION! 💥  Shutting down...');
   console.log(err.name, err.message);
@@ -9,12 +11,11 @@ process.on('uncaughtException', (err) => {
 
 dotenv.config({ path: './config.env' });
 const app = require('./app');
+const dbPass = process.env.DATABASE_PASSWORD;
+console.log(process.env.DATABASE_PASSWORD);
 
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD,
-);
-// const DB= `mongodb+srv://neelmunjpara:kzoCuwHsuhb4PYLb@cluster0.sjjlmir.mongodb.net/natours`
+const DB = process.env.DATABASE.replace('<PASSWORD>', dbPass);
+
 mongooes
   .connect(DB, {
     useNewUrlParser: true,
